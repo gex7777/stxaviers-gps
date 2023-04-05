@@ -56,10 +56,9 @@ const scrapLogic = async (res, myCache) => {
     console.log("logged in");
     //wait while loading
 
-    await Promise.all([
-      page.$eval("#loginBtn", (elm) => elm.click()),
-      page.waitForSelector(".guide_item_footer > button.ant-btn-primary"),
-    ]);
+    await page.$eval("#loginBtn", (elm) => elm.click());
+    await page.waitForSelector("body");
+    await page.waitForSelector(".guide_item_footer > button.ant-btn-primary");
     await page.$eval(".guide_item_footer > button.ant-btn-primary", (elem) =>
       elem.click()
     );
