@@ -7,6 +7,6 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY yarn.lock ./
-RUN npm ci
+RUN yarn ci
 COPY . .
 CMD [ "node", "index.js" ]
