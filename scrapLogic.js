@@ -44,7 +44,7 @@ const scrapLogic = async (res, myCache) => {
     // Set screen size
     await page.setViewport({ width: 1080, height: 1024 });
     console.log("at page");
-
+    await page.waitForNavigation();
     // Type into login
     await page.type("#username", "johnvadakkanchery@gmail.com");
     await page.type("#password", "O3664272067");
