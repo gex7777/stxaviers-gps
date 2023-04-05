@@ -49,10 +49,16 @@ const scrapLogic = async (res, myCache) => {
     await page.type("#username", "johnvadakkanchery@gmail.com");
     await page.type("#password", "O3664272067");
     //click login
-    await page.$eval("#loginBtn", (elm) => elm.click());
-    //wait while loading
-    await page.waitForNavigation();
+
     console.log("logged in");
+    //wait while loading
+
+    await Promise.all([
+      page.$eval("#loginBtn", (elm) => elm.click()),
+      page.waitForNavigation({
+        waitUntil: "networkidle0",
+      }),
+    ]);
     await page.$eval(".guide_item_footer > button.ant-btn-primary", (elem) =>
       elem.click()
     );
