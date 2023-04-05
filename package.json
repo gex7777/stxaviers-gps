@@ -1,0 +1,11 @@
+{
+  "name": "custom-gps",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "puppeteer": "^19.8.3"
+  },
+  "scripts": {
+    "dev": "node index.js"
+  }
+}
