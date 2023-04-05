@@ -3,6 +3,16 @@ const puppeteer = require("puppeteer");
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
     defaultViewport: false,
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
   });
   const page = await browser.newPage();
   console.log("scrapping statreted");
