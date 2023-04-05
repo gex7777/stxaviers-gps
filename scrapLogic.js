@@ -16,7 +16,7 @@ const scrapLogic = async (res, myCache) => {
         : puppeteer.executablePath(),
   });
   const page = await browser.newPage();
-  console.log("scrapping statreted");
+  console.log("scrapping started");
   try {
     await page.evaluateOnNewDocument(function () {
       navigator.geolocation.getCurrentPosition = function (cb) {
