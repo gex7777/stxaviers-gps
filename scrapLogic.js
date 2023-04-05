@@ -58,9 +58,7 @@ const scrapLogic = async (res, myCache) => {
 
     await Promise.all([
       page.$eval("#loginBtn", (elm) => elm.click()),
-      page.waitForNavigation({
-        waitUntil: "networkidle0",
-      }),
+      page.waitForSelector(".guide_item_footer > button.ant-btn-primary"),
     ]);
     await page.$eval(".guide_item_footer > button.ant-btn-primary", (elem) =>
       elem.click()
