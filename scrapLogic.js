@@ -16,8 +16,10 @@ const scrapLogic = async (res, myCache) => {
         : puppeteer.executablePath(),
   });
   const page = await browser.newPage();
+
   console.log("scrapping started");
   try {
+    page.setDefaultNavigationTimeout(0);
     await page.evaluateOnNewDocument(function () {
       navigator.geolocation.getCurrentPosition = function (cb) {
         setTimeout(() => {
@@ -43,10 +45,8 @@ const scrapLogic = async (res, myCache) => {
 
     console.log("at page");
     await Promise.all([
-      page.goto("https://www.iopgps.com/"),
-      page.waitForNavigation({
-        waitUntil: "networkidle0",
-      }),
+      page.goto("https://www.iopgps.com/", { waitUntil: "domcontentloaded" }),
+      page.waitForSelector("body"),
     ]);
     // Type into login
     await page.type("#username", "johnvadakkanchery@gmail.com");
