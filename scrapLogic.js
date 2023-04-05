@@ -1,10 +1,11 @@
 const puppeteer = require("puppeteer");
 
-const scrapLogic = async (res) => {
+const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
     defaultViewport: false,
   });
   const page = await browser.newPage();
+  console.log("scrapping statreted");
   try {
     await page.evaluateOnNewDocument(function () {
       navigator.geolocation.getCurrentPosition = function (cb) {
@@ -29,7 +30,7 @@ const scrapLogic = async (res) => {
     await page.goto("https://www.iopgps.com/");
 
     // Set screen size
-
+    console.log("at page");
     await page.waitForNavigation();
     // Type into login
     await page.type("#username", "johnvadakkanchery@gmail.com");
@@ -38,6 +39,7 @@ const scrapLogic = async (res) => {
     await page.$eval("#loginBtn", (elm) => elm.click());
     //wait while loading
     await page.waitForNavigation();
+    console.log("logged in");
     await page.$eval(".guide_item_footer > button.ant-btn-primary", (elem) =>
       elem.click()
     );
@@ -59,14 +61,15 @@ const scrapLogic = async (res) => {
       "div.ant-modal-body > div:nth-child(6) > input",
       (els) => els.map((e) => e.value)
     );
-
     console.log(text[0]);
-    res.send(text[0]);
+    res.send(JSON.stringify({ link: text[0] }));
+    myCache.set("location", { link: text[0] }, 3600);
   } catch (e) {
     console.error(e);
     res.send(`somthing went wrong with ${e}`);
   } finally {
     // Wait and click on first result
+
     await page.close();
 
     await browser.close();
