@@ -6,6 +6,6 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --immutable --immutable-cache --check-cache
 COPY . .
 CMD [ "node", "index.js" ]
