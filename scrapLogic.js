@@ -39,12 +39,15 @@ const scrapLogic = async (res, myCache) => {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
     );
 
-    await page.goto("https://www.iopgps.com/", { waitUntil: "load" });
-
     // Set screen size
-    await page.setViewport({ width: 1080, height: 1024 });
+
     console.log("at page");
-    await page.waitForNavigation();
+    await Promise.all([
+      page.goto("https://www.iopgps.com/"),
+      page.waitForNavigation({
+        waitUntil: "networkidle0",
+      }),
+    ]);
     // Type into login
     await page.type("#username", "johnvadakkanchery@gmail.com");
     await page.type("#password", "O3664272067");
