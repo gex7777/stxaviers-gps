@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer");
 require("dotenv").config();
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
+    headless: true,
     defaultViewport: false,
     args: [
       "--disable-setuid-sandbox",
