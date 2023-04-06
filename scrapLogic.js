@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 require("dotenv").config();
+var tries = 0;
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
     headless: true,
@@ -15,13 +16,13 @@ const scrapLogic = async (res, myCache) => {
         ? process.env.PUPPETEER_EXECUTABLE_PATH
         : puppeteer.executablePath(),
   });
+  const context = browser.defaultBrowserContext();
+  await context.overridePermissions("https://www.iopgps.com/", []);
   const page = await browser.newPage();
-
   console.log("scrapping started");
+
   try {
     page.setDefaultNavigationTimeout(0);
-    const context = browser.defaultBrowserContext();
-    await context.overridePermissions("https://www.iopgps.com/", []);
 
     // Set screen size
 
@@ -67,7 +68,9 @@ const scrapLogic = async (res, myCache) => {
     myCache.set("location", { link: text[0] }, 3600);
   } catch (e) {
     console.error(e);
-    res.send(`somthing went wrong with ${e}`);
+    if (tries > 4) res.send(`somthing went wrong with ${e}`);
+    scrapLogic(res, myCache);
+    tries = tries + 1;
   } finally {
     // Wait and click on first result
 
