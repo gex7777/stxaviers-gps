@@ -68,7 +68,8 @@ const scrapLogic = async (res, myCache) => {
     myCache.set("location", { link: text[0] }, 3600);
   } catch (e) {
     console.error(e);
-    if (tries > 4) res.send(`somthing went wrong with ${e}`);
+    if (tries > 4)
+      res.send(`after ${tries}tires somthing went wrong with ${e} `);
     scrapLogic(res, myCache);
     tries = tries + 1;
   } finally {
