@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 require("dotenv").config();
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: false,
     args: [
       "--disable-setuid-sandbox",
@@ -20,23 +20,8 @@ const scrapLogic = async (res, myCache) => {
   console.log("scrapping started");
   try {
     page.setDefaultNavigationTimeout(0);
-    await page.evaluateOnNewDocument(function () {
-      navigator.geolocation.getCurrentPosition = function (cb) {
-        setTimeout(() => {
-          cb({
-            coords: {
-              accuracy: 21,
-              altitude: null,
-              altitudeAccuracy: null,
-              heading: null,
-              latitude: 23.129163,
-              longitude: 113.264435,
-              speed: null,
-            },
-          });
-        }, 1000);
-      };
-    });
+    const context = browser.defaultBrowserContext();
+    await context.overridePermissions("https://www.iopgps.com/", []);
 
     // Set screen size
 
