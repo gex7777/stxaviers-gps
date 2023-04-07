@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 require("dotenv").config();
-var tries = 0;
+var tries = 1;
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
     headless: true,
@@ -68,10 +68,10 @@ const scrapLogic = async (res, myCache) => {
     myCache.set("location", { link: text[0] }, 3600);
   } catch (e) {
     console.error(e);
-    if (tries > 4)
-      res.send(`after ${tries}tires somthing went wrong with ${e} `);
-    scrapLogic(res, myCache);
     tries = tries + 1;
+    tries > 4
+      ? res.send(`after ${tries}tires somthing went wrong with ${e} `)
+      : scrapLogic(res, myCache);
   } finally {
     // Wait and click on first result
 
