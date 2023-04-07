@@ -75,7 +75,7 @@ const scrapLogic = async (res, myCache) => {
     console.error(e);
     console.log("tries " + tries);
 
-    if (tries > 4) {
+    if (tries > 6) {
       res.send(`after ${tries}tires somthing went wrong with ${e} `);
       tries = 1;
     } else {
