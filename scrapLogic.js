@@ -55,6 +55,11 @@ const scrapLogic = async (res, myCache) => {
       "body > div:nth-child(21) > div > div.ant-modal-wrap > div > div.ant-modal-content > div.ant-modal-body > div:nth-child(3) > input",
       "mew"
     );
+
+    const input = await page.$("input.ant-input-number-input");
+    await input.click({ clickCount: 3 });
+    await input.type("24");
+
     await page.$eval(".ant-modal-footer > button.ant-btn-primary", (elm) =>
       elm.click()
     );
@@ -65,7 +70,7 @@ const scrapLogic = async (res, myCache) => {
     );
     console.log(text[0]);
     res.send(JSON.stringify({ link: text[0] }));
-    myCache.set("location", { link: text[0] }, 3600);
+    myCache.set("location", { link: text[0] }, 86400);
   } catch (e) {
     console.error(e);
     console.log("tries " + tries);
