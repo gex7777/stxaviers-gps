@@ -69,10 +69,14 @@ const scrapLogic = async (res, myCache) => {
   } catch (e) {
     console.error(e);
     console.log("tries " + tries);
-    tries = tries + 1;
-    tries > 4
-      ? res.send(`after ${tries}tires somthing went wrong with ${e} `)
-      : scrapLogic(res, myCache);
+
+    if (tries > 4) {
+      res.send(`after ${tries}tires somthing went wrong with ${e} `);
+      tries = 1;
+    } else {
+      tries = tries + 1;
+      scrapLogic(res, myCache);
+    }
   } finally {
     // Wait and click on first result
 
