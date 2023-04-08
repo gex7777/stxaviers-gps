@@ -59,6 +59,7 @@ const scrapLogic = async (res, myCache) => {
 
     const input = await page.$("input.ant-input-number-input");
     await input.click({ clickCount: 3 });
+    await page.keyboard.press("Backspace");
     await input.type(`${linkDuration}`);
 
     await page.$eval(".ant-modal-footer > button.ant-btn-primary", (elm) =>
