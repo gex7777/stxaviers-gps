@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 require("dotenv").config();
 var tries = 1;
-const linkDuration = 3;
+const linkDuration = 14;
 const scrapLogic = async (res, myCache) => {
   const browser = await puppeteer.launch({
     headless: true,
